@@ -1,0 +1,79 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Sentriq System Status</title><meta name='robots' content='noindex'><style>
+@page { size: Letter; margin: 0.85in 0.8in; }
+* { box-sizing: border-box; }
+body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; font-size: 11pt;
+       line-height: 1.5; color: #1a1a1a; max-width: 100%;
+       font-variant-ligatures: none; font-feature-settings: "liga" 0, "clig" 0; }
+h1 { font-size: 22pt; color: #0f172a; border-bottom: 3px solid #2563eb; padding-bottom: 6px; margin: 0 0 16px; }
+h2 { font-size: 15pt; color: #1e3a8a; margin: 22px 0 8px; }
+h3 { font-size: 12.5pt; color: #334155; margin: 16px 0 6px; }
+p, li { font-size: 11pt; }
+code { background: #f1f5f9; padding: 1px 4px; border-radius: 3px; font-size: 10pt; }
+table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 10pt; }
+th, td { border: 1px solid #cbd5e1; padding: 6px 9px; text-align: left; vertical-align: top; }
+th { background: #eff6ff; color: #1e3a8a; }
+tr:nth-child(even) td { background: #f8fafc; }
+ul, ol { margin: 6px 0 6px 0; padding-left: 22px; }
+strong { color: #0f172a; }
+</style></head><body><h1>Sentriq System Status</h1>
+<p>This page describes how Sentriq communicates service availability, what our uptime commitments are, and where to look during an incident. For the live, real-time status of each component, see the status page linked from your workspace footer.</p>
+<h2>Current commitments</h2>
+<p>Sentriq targets <strong>99.9% monthly uptime</strong> for the core application and API. Enterprise agreements may include a contractual SLA with service credits; see your order form for specifics.</p>
+<h2>Components we track</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>What it covers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web application</td>
+<td>The Sentriq dashboard and all in-app workflows</td>
+</tr>
+<tr>
+<td>Public API</td>
+<td>REST API used by integrations and customer scripts</td>
+</tr>
+<tr>
+<td>Continuous Monitoring</td>
+<td>The 24-hour control re-check engine</td>
+</tr>
+<tr>
+<td>Integrations sync</td>
+<td>Pulling configuration data from connected systems</td>
+</tr>
+<tr>
+<td>Trust Center</td>
+<td>Public, customer-hosted trust pages</td>
+</tr>
+<tr>
+<td>Notifications</td>
+<td>Slack and email delivery for findings and alerts</td>
+</tr>
+</tbody>
+</table>
+<p>Each component is reported independently, so a delay in integrations sync does not show the whole platform as down.</p>
+<h2>Status levels</h2>
+<ul>
+<li><strong>Operational</strong> — the component is fully functional.</li>
+<li><strong>Degraded performance</strong> — the component works but is slow or partially impaired (for example, monitoring runs are delayed).</li>
+<li><strong>Partial outage</strong> — a subset of customers or one capability is affected.</li>
+<li><strong>Major outage</strong> — the component is unavailable for most customers.</li>
+<li><strong>Maintenance</strong> — planned work, announced in advance.</li>
+</ul>
+<h2>During an incident</h2>
+<p>When we open an incident you will see:</p>
+<ol>
+<li>A banner in the app pointing to the status page.</li>
+<li>Regular updates on the status page (typically every 30–60 minutes until resolved).</li>
+<li>A post-incident summary for major outages, including root cause and the corrective actions we are taking.</li>
+</ol>
+<p>Subscribe on the status page to get incident notifications by email or webhook.</p>
+<h2>Planned maintenance</h2>
+<p>We schedule maintenance during low-traffic windows and announce it at least 48 hours ahead on the status page. Continuous Monitoring runs are queued during maintenance and resume automatically — no monitoring data is lost, though a 24-hour re-check may be deferred to the next window.</p>
+<h2>Does an outage affect my compliance evidence?</h2>
+<p>No. Evidence already collected is stored durably and is unaffected by an application outage. If a monitoring run is delayed by an incident, the affected controls are re-checked on the next cycle and any gap is visible in the control's history.</p>
+<h2>Reporting a problem</h2>
+<p>If you believe Sentriq is down but the status page shows operational, contact <strong>support@sentriq.site</strong> or use in-app chat. Enterprise customers can escalate through their dedicated CSM or Slack Connect channel.</p></body></html>

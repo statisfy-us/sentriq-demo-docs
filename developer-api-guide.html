@@ -1,0 +1,86 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Sentriq API and Developer Guide</title><meta name='robots' content='noindex'><style>
+@page { size: Letter; margin: 0.85in 0.8in; }
+* { box-sizing: border-box; }
+body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; font-size: 11pt;
+       line-height: 1.5; color: #1a1a1a; max-width: 100%;
+       font-variant-ligatures: none; font-feature-settings: "liga" 0, "clig" 0; }
+h1 { font-size: 22pt; color: #0f172a; border-bottom: 3px solid #2563eb; padding-bottom: 6px; margin: 0 0 16px; }
+h2 { font-size: 15pt; color: #1e3a8a; margin: 22px 0 8px; }
+h3 { font-size: 12.5pt; color: #334155; margin: 16px 0 6px; }
+p, li { font-size: 11pt; }
+code { background: #f1f5f9; padding: 1px 4px; border-radius: 3px; font-size: 10pt; }
+table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 10pt; }
+th, td { border: 1px solid #cbd5e1; padding: 6px 9px; text-align: left; vertical-align: top; }
+th { background: #eff6ff; color: #1e3a8a; }
+tr:nth-child(even) td { background: #f8fafc; }
+ul, ol { margin: 6px 0 6px 0; padding-left: 22px; }
+strong { color: #0f172a; }
+</style></head><body><h1>Sentriq API and Developer Guide</h1>
+<p>The Sentriq REST API lets you read your compliance data — controls, findings, evidence, and frameworks — and pull it into your own dashboards, data warehouse, or automation. API access is available on <strong>Scale</strong> and <strong>Enterprise</strong> plans.</p>
+<h2>Base URL and versioning</h2>
+<pre><code>https://api.sentriq.site/v1
+</code></pre>
+<p>The API is versioned in the path (<code>/v1</code>). Breaking changes ship under a new version; additive changes (new fields, new endpoints) can appear within a version, so write clients that ignore unknown fields.</p>
+<h2>Authentication</h2>
+<p>Authenticate with an API token sent as a bearer header:</p>
+<pre><code>Authorization: Bearer &lt;your_api_token&gt;
+</code></pre>
+<p>Create and revoke tokens under <strong>Settings → API Tokens</strong> (admin only). Tokens are scoped read-only for compliance data. Treat tokens like passwords: store them in a secret manager, never in source control, and rotate them periodically.</p>
+<h2>Rate limits</h2>
+<p>Default limit is <strong>120 requests per minute</strong> per token. Responses include <code>X-RateLimit-Remaining</code> and <code>X-RateLimit-Reset</code> headers. On <code>429 Too Many Requests</code>, back off and retry after the reset time.</p>
+<h2>Core resources</h2>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Endpoint</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frameworks</td>
+<td><code>GET /frameworks</code></td>
+<td>Frameworks enabled on your workspace and their status</td>
+</tr>
+<tr>
+<td>Controls</td>
+<td><code>GET /controls</code></td>
+<td>Controls, owners, and pass/fail state</td>
+</tr>
+<tr>
+<td>Findings</td>
+<td><code>GET /findings</code></td>
+<td>Open and resolved findings with severity</td>
+</tr>
+<tr>
+<td>Evidence</td>
+<td><code>GET /evidence</code></td>
+<td>Evidence artifacts and the controls they support</td>
+</tr>
+<tr>
+<td>Integrations</td>
+<td><code>GET /integrations</code></td>
+<td>Connected systems and last sync time</td>
+</tr>
+</tbody>
+</table>
+<h2>Examples</h2>
+<p>List open Critical and High findings:</p>
+<pre><code>GET /v1/findings?status=open&amp;severity=critical,high
+Authorization: Bearer &lt;your_api_token&gt;
+</code></pre>
+<p>Fetch a single control with its current evidence:</p>
+<pre><code>GET /v1/controls/CC6.1?include=evidence
+Authorization: Bearer &lt;your_api_token&gt;
+</code></pre>
+<h2>Pagination</h2>
+<p>List endpoints return up to 100 items per page. Use the <code>cursor</code> query parameter with the <code>next_cursor</code> value from the previous response to page forward. When <code>next_cursor</code> is null, you have reached the end.</p>
+<h2>Webhooks</h2>
+<p>Subscribe to events (for example, <code>finding.opened</code>, <code>finding.resolved</code>, <code>control.failed</code>) under <strong>Settings → Webhooks</strong>. Sentriq POSTs a signed JSON payload to your endpoint; verify the <code>X-Sentriq-Signature</code> header against your signing secret before trusting the body.</p>
+<h2>Errors</h2>
+<p>The API uses standard HTTP status codes. Error bodies are JSON with a stable <code>code</code> and a human-readable <code>message</code>:</p>
+<pre><code class="language-json">{ &quot;error&quot;: { &quot;code&quot;: &quot;rate_limited&quot;, &quot;message&quot;: &quot;Too many requests&quot; } }
+</code></pre>
+<h2>Support</h2>
+<p>API questions go to <strong>support@sentriq.site</strong> or in-app chat. Enterprise customers can request higher rate limits and a dedicated webhook retry queue through their CSM.</p></body></html>
